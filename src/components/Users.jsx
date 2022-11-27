@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../App';
 
 const Users = () => {
+    const { darkTheme } = useContext(AppContext);
 
     const { data: users, isLoading, error, refetch } = useQuery(['users'], () => {
         return axios.get('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations')
@@ -42,7 +44,11 @@ const Users = () => {
             </Link>
         </div>
         <br />
-        <Table striped bordered hover variant="">
+        <Table 
+            striped 
+            bordered 
+            hover 
+            variant={ darkTheme ? 'dark' : 'light' }>
       <thead>
         <tr>
           <th>#</th>
