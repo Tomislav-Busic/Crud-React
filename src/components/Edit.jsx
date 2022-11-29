@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { AppContext } from '../App';
 
 const Edit = () => {
     const [id, setId] = useState(0);
@@ -12,9 +13,10 @@ const Edit = () => {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [age, setAge] = useState(0);
-    const [phone, setPhone] = useState(0);
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
     const history = useNavigate();
+    const { darkTheme } = useContext(AppContext);
 
     useEffect(() => {
       setId(localStorage.getItem('id'));
@@ -27,10 +29,10 @@ const Edit = () => {
     
 
     const schema = yup.object().shape({
-        name: yup.string().min(2).max(30).required(),
-        lastname: yup.string().min(2).max(30).required(),
+        name: yup.string().max(30).required(),
+        lastname: yup.string().max(30).required(),
         email: yup.string().email().required(),
-        age: yup.number().positive().integer().min(18).required(),
+        age: yup.number('Age must be a `number` type').positive().integer().min(18).required(),
         phone: yup.string().min(6).max(40).required(),
         password: yup.string().min(6).max(40).required(),
         confirmpassword: yup
@@ -39,12 +41,11 @@ const Edit = () => {
                             .required()
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = () => {
 
         axios.put(`https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}`, {
             name: name,
@@ -53,9 +54,9 @@ const Edit = () => {
             age: age,
             phone: phone,
             password: password
+        }).then(() => {
+          history('/');
         });
-
-        history('/');
     }
 
     
@@ -64,10 +65,16 @@ const Edit = () => {
     <div>
         <h1>Edit User</h1>
         <br />
-        <Form onSubmit={ handleSubmit(onSubmit) }>
+        <Form
+            style={ { 
+                      background: darkTheme ? '#222' : '',
+                      padding: '1rem 2rem',
+                      borderRadius: '1rem'
+             } } 
+            onSubmit={ handleSubmit(onSubmit) }>
 
             <Form.Group className="mb-3">
-              <Form.Label>First name</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>First name</Form.Label>
               <Form.Control 
                   type="text" 
                   value={name}
@@ -81,7 +88,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Last name</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Last name</Form.Label>
               <Form.Control 
                   type="text"
                   value={lastName} 
@@ -95,7 +102,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Email address</Form.Label>
               <Form.Control 
                   type="email" 
                   value={email}
@@ -109,7 +116,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Age</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Age</Form.Label>
               <Form.Control 
                   type="number" 
                   value={age}
@@ -123,7 +130,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Phone number</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Phone number</Form.Label>
               <Form.Control 
                   type="text" 
                   value={phone}
@@ -137,7 +144,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Password</Form.Label>
               <Form.Control 
                   type="password" 
                   placeholder="Enter password"  
@@ -150,7 +157,7 @@ const Edit = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Confirm password</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Confirm password</Form.Label>
               <Form.Control 
                   type="password" 
                   placeholder="Enter confirm password"  
@@ -164,7 +171,6 @@ const Edit = () => {
             <Button 
               variant="primary" 
               type="submit"
-              onClick={onSubmit}
               >
               Edit
             </Button>

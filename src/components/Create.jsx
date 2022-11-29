@@ -1,23 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppContext } from '../App';
 
 const Create = () => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [age, setAge] = useState(0);
-    const [phone, setPhone] = useState(0);
+    const [phone, setPhone] = useState('');
     const [password, setPassword] = useState('');
+    const { darkTheme } = useContext(AppContext);
+    const history = useNavigate();
 
 
     const schema = yup.object().shape({
-        name: yup.string().min(2).max(30).required(),
-        lastname: yup.string().min(2).max(30).required(),
+        name: yup.string().max(30).required(),
+        lastname: yup.string().max(30).required(),
         email: yup.string().email().required(),
         age: yup.number().positive().integer().min(18).required(),
         phone: yup.string().min(6).max(40).required(),
@@ -28,12 +31,11 @@ const Create = () => {
                             .required()
     });
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = () => {
 
         axios.post('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations', {
             name: name,
@@ -42,7 +44,10 @@ const Create = () => {
             age: age,
             phone: phone,
             password: password
+        }).then(() => {
+          history('/');
         });
+
     }
 
     
@@ -51,10 +56,16 @@ const Create = () => {
     <div>
         <h1>Create User</h1>
         <br />
-        <Form onSubmit={ handleSubmit(onSubmit) }>
+        <Form
+            style={ { 
+                      background: darkTheme ? '#222' : '',
+                      padding: '1rem 2rem',
+                      borderRadius: '1rem'
+             } } 
+            onSubmit={ handleSubmit(onSubmit) }>
 
             <Form.Group className="mb-3">
-              <Form.Label>First name</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>First name</Form.Label>
               <Form.Control 
                   type="text" 
                   placeholder="Enter first name" 
@@ -67,7 +78,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Last name</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Last name</Form.Label>
               <Form.Control 
                   type="text" 
                   placeholder="Enter last name" 
@@ -80,7 +91,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Email address</Form.Label>
               <Form.Control 
                   type="email" 
                   placeholder="Enter email" 
@@ -93,7 +104,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Age</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Age</Form.Label>
               <Form.Control 
                   type="number" 
                   placeholder="Enter age"  
@@ -106,7 +117,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Phone number</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Phone number</Form.Label>
               <Form.Control 
                   type="text" 
                   placeholder="Enter phone number"  
@@ -119,7 +130,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Password</Form.Label>
               <Form.Control 
                   type="password" 
                   placeholder="Enter password"  
@@ -132,7 +143,7 @@ const Create = () => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Confirm password</Form.Label>
+              <Form.Label style={ { color: darkTheme ? 'white' : '' } }>Confirm password</Form.Label>
               <Form.Control 
                   type="password" 
                   placeholder="Enter confirm password"  
@@ -146,7 +157,6 @@ const Create = () => {
             <Button 
               variant="primary" 
               type="submit"
-              onClick={onSubmit}
               >
               Create
             </Button>
