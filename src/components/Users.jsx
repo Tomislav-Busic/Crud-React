@@ -8,22 +8,23 @@ import { AppContext } from '../App';
 import Forms from './Forms';
 
 const Users = () => {
-    /*Kada ne koristim useState za data podatke sve radi ok ali ne mogu koristiti select*/
-    const { data: users, isLoading, error, refetch } =  useQuery(['key_user'], async () => {
+    /*Kada ne koristim useState(data) za 'users' podatke sve radi ok ali ne mogu koristiti select.
+    Ovako i proradi ali kada refrešam sve se sruši*/
+    const { data: usersdata, isLoading, error, refetch } =  useQuery(['key_users'], async () => {
     return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
                 .then( ( res ) => res.data);
     });
 
     const { darkTheme } = useContext(AppContext);
     const [searchName, setSearchName] = useState(''); 
-    const [data, setData] = useState(users); 
+    const [data, setData] = useState(usersdata); 
 
     if ( isLoading ) {
         return <h1>Loading...</h1>
     }
 
     if ( error ) {
-        return <h1>Error</h1>
+        return <h1>Error!</h1>
     }
 
     const handleEdit = ( id, name, lastName, email, age, phone ) => {
@@ -70,8 +71,10 @@ const Users = () => {
             striped 
             bordered 
             hover 
-            variant={ darkTheme ? 'dark' : 'light' }>
-
+            variant={ darkTheme ? 'dark' : 'light' }
+            pagination={true}
+            >
+                
             <thead>
               <tr>
                 <th>#</th>
