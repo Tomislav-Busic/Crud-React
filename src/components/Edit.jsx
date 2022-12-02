@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { schema } from './validator';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -25,21 +25,7 @@ const Edit = () => {
       setEmail(localStorage.getItem('email'));
       setAge(localStorage.getItem('age'));
       setPhone(localStorage.getItem('phone'));
-    }, [])
-    
-
-    const schema = yup.object().shape({
-        name: yup.string().max(30).required(),
-        lastname: yup.string().max(30).required(),
-        email: yup.string().email().required(),
-        age: yup.number('Age must be a `number` type').positive().integer().min(18).required(),
-        phone: yup.string().min(6).max(40).required(),
-        password: yup.string().min(6).max(40).required(),
-        confirmpassword: yup
-                            .string()
-                            .oneOf([yup.ref('password'), null], "Passwords Don't Match!")
-                            .required()
-    });
+    }, []);
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema)
