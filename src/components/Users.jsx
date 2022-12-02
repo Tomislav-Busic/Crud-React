@@ -14,8 +14,8 @@ const Users = () => {
     });
 
     const { darkTheme } = useContext(AppContext);
-    const [searchName, setSearchName] = useState('');/* 
-    const [data, setData] = useState(users); */
+    const [searchName, setSearchName] = useState(''); 
+    const [data, setData] = useState(users); 
 
     if ( isLoading ) {
         return <h1>Loading...</h1>
@@ -40,7 +40,7 @@ const Users = () => {
     }
     
     const ageSelect = ( value ) => {
-        /* const newUsers = [...data];
+        const newUsers = [...data];
         switch ( value ) {
             case 'higher': 
                 setData(newUsers.sort((a,b) => b.age - a.age));
@@ -48,7 +48,7 @@ const Users = () => {
             case 'lower':
                 setData(newUsers.sort((a,b) => a.age - b.age));
                 break;
-        }  */  
+        }   
     
     }
 
@@ -84,13 +84,13 @@ const Users = () => {
             </thead>
 
             {
-              users?.length > 0 ?
-              users?.filter(name => { 
+              data?.length > 0 ?
+              data?.filter(name => { 
                     return name.name.toLowerCase().includes(searchName) || 
                            name.name.includes(searchName) 
                     }).map((user) => {
-                      return (
-                          <tbody>
+                        return (
+                            <tbody>
                               <tr>
                                 <td>{user.id}</td>
                                 <td>{user.name}</td>
@@ -125,9 +125,9 @@ const Users = () => {
 
                                 </td>
                               </tr>
-                          </tbody>
-                      )
-                  }) 
+                            </tbody> 
+                        )
+                    }) 
                   : 
                   <div>
                       <h1>Users not found</h1>
