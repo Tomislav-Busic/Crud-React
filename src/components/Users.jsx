@@ -8,6 +8,7 @@ import { AppContext } from '../App';
 import Forms from './Forms';
 
 const Users = () => {
+    /*Kada ne koristim useState za data podatke sve radi ok ali ne mogu koristiti select*/
     const { data: users, isLoading, error, refetch } =  useQuery(['key_user'], async () => {
     return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
                 .then( ( res ) => res.data);
