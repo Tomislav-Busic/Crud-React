@@ -51,6 +51,12 @@ const Users = () => {
             case 'lower':
                 setData(newUsers.sort((a,b) => a.age - b.age));
                 break;
+            case 'with_phone': 
+                setData(newUsers.filter(user => user.phone));
+                break;
+            case 'no_phone': 
+                setData(newUsers.filter(user => !user.phone));
+                break;
         }   
     
     }
