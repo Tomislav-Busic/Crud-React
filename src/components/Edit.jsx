@@ -57,6 +57,8 @@ const Edit = () => {
         }).then(() => {
           history('/');
         });
+
+        reset();
     }
 
     

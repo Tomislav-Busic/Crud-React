@@ -8,13 +8,15 @@ const Forms = (props) => {
   return (
     <div>
         <InputGroup className="mb-3">
+
             <InputGroup.Text style={ { 
                                         background : darkTheme ? '#222' : '',
                                         color: darkTheme ? 'white' : ''
                                         } }>
                 Search by Name
             </InputGroup.Text>
-              <Form.Control   
+
+            <Form.Control   
               style={ { 
                         background : darkTheme ? '#222' : '',
                         color: darkTheme ? 'white' : ''
@@ -22,15 +24,18 @@ const Forms = (props) => {
               placeholder="Username"
               onChange={(e) => props.setSearchName(e.target.value)}
             />
+            
         </InputGroup>
 
-        <Form.Select style={ { 
+        <Form.Select 
+                      onChange={(e) => props.ageSelect(e.target.value)}
+                      style={ { 
                         background : darkTheme ? '#222' : '',
                         color: darkTheme ? 'white' : ''
                         } }>
             <option>Sort by Age</option>
-            <option value="1">Higher Age</option>
-            <option value="2">Lower Age</option>
+            <option value="higher">Higher Age</option>
+            <option value="lower">Lower Age</option>
         </Form.Select>
     </div>
   )

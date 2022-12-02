@@ -11,10 +11,10 @@ import Users from './components/Users';
 import Edit from './components/Edit';
 
 export const AppContext = createContext();
+const client = new QueryClient();
 
 function App() {
   const [ darkTheme, setDarkTheme ] = useState(false);
-  const client = new QueryClient();
 
   return (
     <div className="App">

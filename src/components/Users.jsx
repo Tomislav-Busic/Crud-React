@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@tanstack/react-query';
@@ -8,14 +8,14 @@ import { AppContext } from '../App';
 import Forms from './Forms';
 
 const Users = () => {
-    const { darkTheme } = useContext(AppContext);
-    const [searchName, setSearchName] = useState('');
-
-
-    const { data: users, isLoading, error, refetch } = useQuery(['users'], () => {
-        return axios.get('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations')
-                    .then((res) => res.data);
+    const { data: users, isLoading, error, refetch } =  useQuery(['key_user'], async () => {
+    return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
+                .then( ( res ) => res.data);
     });
+
+    const { darkTheme } = useContext(AppContext);
+    const [searchName, setSearchName] = useState('');/* 
+    const [data, setData] = useState(users); */
 
     if ( isLoading ) {
         return <h1>Loading...</h1>
@@ -35,10 +35,22 @@ const Users = () => {
     }
 
     const handleDelete = (id) => {
-        axios.delete(`https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}`)
-             .then(refetch)
+        axios.delete( `https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}` )
+             .then( refetch )
     }
     
+    const ageSelect = ( value ) => {
+        /* const newUsers = [...data];
+        switch ( value ) {
+            case 'higher': 
+                setData(newUsers.sort((a,b) => b.age - a.age));
+                break;
+            case 'lower':
+                setData(newUsers.sort((a,b) => a.age - b.age));
+                break;
+        }  */  
+    
+    }
 
   return (
     <div>
@@ -50,7 +62,7 @@ const Users = () => {
         </div>
 
         <br />
-        <Forms setSearchName={setSearchName}/>
+        <Forms setSearchName={setSearchName} ageSelect={ageSelect}/>
         <br />
 
         <Table 
@@ -72,9 +84,10 @@ const Users = () => {
             </thead>
 
             {
-              users.length > 0 ?
-                  users.filter(name => { 
-                    return name.name.toLowerCase().includes(searchName) 
+              users?.length > 0 ?
+              users?.filter(name => { 
+                    return name.name.toLowerCase().includes(searchName) || 
+                           name.name.includes(searchName) 
                     }).map((user) => {
                       return (
                           <tbody>
