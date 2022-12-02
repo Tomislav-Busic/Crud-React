@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { AppContext } from '../App';
 import Forms from './Forms';
+import User from './User';
 
 const Users = () => {
     /*Kada ne koristim useState(data) za 'users' podatke sve radi ok ali ne mogu koristiti select.
@@ -94,42 +95,11 @@ const Users = () => {
                            name.name.includes(searchName) 
                     }).map((user) => {
                         return (
-                            <tbody>
-                              <tr>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td>{user.last_name}</td>
-                                <td>{user.email}</td>
-                                <td>{user.age}</td>
-                                <td>{user.phone}</td>
-                                <td>
-
-                                  <Link to='/edit'>
-                                      <Button 
-                                      variant="warning m-1" 
-                                      onClick={() => handleEdit(
-                                                          user.id, 
-                                                          user.name, 
-                                                          user.last_name, 
-                                                          user.email, 
-                                                          user.age, 
-                                                          user.phone
-                                                          )}
-                                      >
-                                          Edit
-                                      </Button>
-                                  </Link>
-
-                                  <Button 
-                                      variant="danger"
-                                      onClick={() => handleDelete(user.id)}
-                                      >
-                                          Delete
-                                  </Button>
-
-                                </td>
-                              </tr>
-                            </tbody> 
+                           <User 
+                                user={user}
+                                handleDelete={handleDelete}
+                                handleEdit={handleEdit}
+                           />  
                         )
                     }) 
                   : 
