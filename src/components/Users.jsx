@@ -72,7 +72,7 @@ const Users = () => {
     const handleDelete = (id) => {
         axios.delete( `https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}` )
              .then(() => {
-                history('/create');
+                history('/');
                });
     }
     
