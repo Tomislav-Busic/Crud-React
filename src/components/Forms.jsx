@@ -33,12 +33,14 @@ const Forms = (props) => {
                         background : darkTheme ? '#222' : '',
                         color: darkTheme ? 'white' : ''
                         } }>
-            <option value='0'>Sorting</option>
+            <option>Sorting</option>
             <option value="higher">Higher Age</option>
             <option value="lower">Lower Age</option>
             <option value="with_phone">With phone number</option>
             <option value="no_phone">No phone number</option>
         </Form.Select>
+
+        <br />
     </div>
   )
 }

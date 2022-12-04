@@ -10,7 +10,7 @@ import User from './User';
 
 const Users = () => {
     /*Kada ne koristim useState(data) za 'users' podatke sve radi ok ali ne mogu koristiti select.
-    Ovako i proradi ali kada refrešam sve se sruši*/
+    Ovako i proradi ali kada se reload sve se sruši*/
     /* const { data: usersdata, isLoading, error, refetch } =  useQuery(['key_users'], async () => {
     return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
                 .then( ( res ) => res.data);
@@ -22,18 +22,19 @@ const Users = () => {
     const { darkTheme } = useContext(AppContext);
     const history = useNavigate(); 
 
-    useEffect(() => {
-        const fetchData = async () =>{
-          setLoading(true);
-          try {
-            const {data: response} = await axios.get('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations');
-            setData(response);
-          } catch (error) {
-            console.error(error.message);
-          }
-          setLoading(false);
-        }
     
+    const fetchData = async () =>{
+      setLoading(true);
+      try {
+        const {data: response} = await axios.get('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations');
+        setData(response);
+      } catch (error) {
+        console.error(error.message);
+      }
+      setLoading(false);
+    }
+
+    useEffect(() => {
         fetchData();
       }, []);
 
@@ -61,6 +62,11 @@ const Users = () => {
                });
     }
     
+    /* const ageSelect = ( value ) => {
+        const newUsers = [...data];   
+        setData(newUsers.sort((a,b) => value === 'lower' ? a.age - b.age : b.age - a.age));
+    } */
+
     const ageSelect = ( value ) => {
         const newUsers = [...data];
         switch ( value ) {
@@ -77,7 +83,7 @@ const Users = () => {
                 setData(newUsers.filter(user => !user.phone));
                 break;
             default: 
-            setData(newUsers);
+              setData(newUsers);
         }   
        
     }
@@ -135,7 +141,9 @@ const Users = () => {
                   <div>
                       <h1>Users not found</h1>
                       <Link to='/create'>
-                          <Button style={{ color: '#111' }}  variant={ darkTheme ? 'dark' : 'primary' }>Create</Button>
+                          <Button 
+                                style={{ color: darkTheme ? 'white' : '#111' }}  
+                                variant={ darkTheme ? 'dark' : 'primary' }>Create</Button>
                       </Link>
                   </div>
             }
