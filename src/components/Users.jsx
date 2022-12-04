@@ -131,7 +131,7 @@ const Users = () => {
               </tr>
             </thead>
 
-            {loading && <h1>Loading</h1>}
+            {loading && <h1>Loading...</h1>}
 
             {!loading &&
               data?.length > 0 ?
