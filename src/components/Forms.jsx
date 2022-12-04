@@ -28,12 +28,12 @@ const Forms = (props) => {
         </InputGroup>
 
         <Form.Select 
-                      onChange={(e) => props.ageSelect(e.target.value)}
+                      onChange={(e) => props.allSelect(e.target.value)}
                       style={ { 
                         background : darkTheme ? '#222' : '',
                         color: darkTheme ? 'white' : ''
                         } }>
-            <option>Sorting</option>
+            <option>All</option>
             <option value="higher">Higher Age</option>
             <option value="lower">Lower Age</option>
             <option value="with_phone">With phone number</option>

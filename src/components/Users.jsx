@@ -9,14 +9,26 @@ import Forms from './Forms';
 import User from './User';
 
 const Users = () => {
-    /*Kada ne koristim useState(data) za 'users' podatke sve radi ok ali ne mogu koristiti select.
-    Ovako i proradi ali kada se reload sve se sruši*/
+    /*
+    Bok Ada, pretpostavljam da ovo čitaš pa ću to objasniti što me muči.
+    Riješio sam problem ali ne sa 'useQuery'(vjerojatno ću shvatiti sa vremenom kako manipulirati sa podatcima iz useQuery..)
+    Ono što me najviše mučilo je sortiranje i filtriranje po određenim kriterijima.
+    Napravio sam još jedan useState hook 'filterData' i to mi je omogućilo da na svaki 
+    'select/option' dobije željeni rezultat.
+    Ne znam jel to uobičajena praksa ali radi... :)
+    Međutim ima jedna sitnica koja sad trenutno ne radi kako treba ali nije krucijalna.
+    Funkcija 'handleDelete' trebala bi još osvježiti stranicu preko '.then(() => history('/'))' 
+    ali to ne radi osim ako sam u stranici users pa onda automatski prebaci na home('/). 
+    Sa 'refetch' funkcijom je radilo ali ona je samo bila dostupna iz 'useQuery'... */
+
+
     /* const { data: usersdata, isLoading, error, refetch } =  useQuery(['key_users'], async () => {
     return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
                 .then( ( res ) => res.data);
     }); */
 
     const [data, setData] = useState([]);
+    const [filterData, setfilterData] = useState([])
     const [loading, setLoading] = useState(true);
     const [searchName, setSearchName] = useState(''); 
     const { darkTheme } = useContext(AppContext);
@@ -28,6 +40,7 @@ const Users = () => {
       try {
         const {data: response} = await axios.get('https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations');
         setData(response);
+        setfilterData(response);
       } catch (error) {
         console.error(error.message);
       }
@@ -36,6 +49,7 @@ const Users = () => {
 
     useEffect(() => {
         fetchData();
+        handleDelete();
       }, []);
 
     /* if ( isLoading ) {
@@ -58,16 +72,12 @@ const Users = () => {
     const handleDelete = (id) => {
         axios.delete( `https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}` )
              .then(() => {
-                history('/');
+                history('/create');
                });
     }
     
-    /* const ageSelect = ( value ) => {
-        const newUsers = [...data];   
-        setData(newUsers.sort((a,b) => value === 'lower' ? a.age - b.age : b.age - a.age));
-    } */
 
-    const ageSelect = ( value ) => {
+    const allSelect = ( value ) => {
         const newUsers = [...data];
         switch ( value ) {
             case 'higher': 
@@ -77,13 +87,13 @@ const Users = () => {
                 setData(newUsers.sort((a,b) => a.age - b.age));
                 break;
             case 'with_phone': 
-                setData(newUsers.filter(user => user.phone));
+                setData(filterData.filter(user => user.phone));
                 break;
             case 'no_phone': 
-                setData(newUsers.filter(user => !user.phone));
+                setData(filterData.filter(user => !user.phone));
                 break;
             default: 
-              setData(newUsers);
+              setData(filterData);
         }   
        
     }
@@ -98,7 +108,7 @@ const Users = () => {
         </div>
 
         <br />
-        <Forms setSearchName={setSearchName} ageSelect={ageSelect}/>
+        <Forms setSearchName={setSearchName} allSelect={allSelect}/>
         <br />
 
         <Table 
