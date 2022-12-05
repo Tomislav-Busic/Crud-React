@@ -49,7 +49,6 @@ const Users = () => {
 
     useEffect(() => {
         fetchData();
-        handleDelete();
       }, []);
 
     /* if ( isLoading ) {
