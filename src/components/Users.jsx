@@ -92,7 +92,7 @@ const Users = () => {
                 setData(filterData.filter(user => !user.phone));
                 break;
             default: 
-              setData(filterData);
+                setData(filterData);
         }   
        
     }

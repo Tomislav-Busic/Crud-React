@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { schema } from './validator';
+import { schema } from './validator/schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
