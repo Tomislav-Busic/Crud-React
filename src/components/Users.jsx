@@ -9,19 +9,6 @@ import Forms from './Forms';
 import User from './User';
 
 const Users = () => {
-    /*
-    Bok Ada, pretpostavljam da ovo čitaš pa ću to objasniti što me muči.
-    Riješio sam problem ali ne sa 'useQuery'(vjerojatno ću shvatiti sa vremenom kako manipulirati sa podatcima iz useQuery..)
-    Ono što me najviše mučilo je sortiranje i filtriranje po određenim kriterijima.
-    Napravio sam još jedan useState hook 'filterData' i to mi je omogućilo da na svaki 
-    'select/option' dobije željeni rezultat.
-    Ne znam jel to uobičajena praksa ali radi... :)
-    Međutim ima jedna sitnica koja sad trenutno ne radi kako treba ali nije krucijalna.
-    Funkcija 'handleDelete' trebala bi još osvježiti stranicu preko '.then(() => history('/'))' 
-    ali to ne radi osim ako sam u stranici users pa onda automatski prebaci na home('/). 
-    Sa 'refetch' funkcijom je radilo ali ona je samo bila dostupna iz 'useQuery'... */
-
-
     /* const { data: usersdata, isLoading, error, refetch } =  useQuery(['key_users'], async () => {
     return await axios.get( 'https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations' )
                 .then( ( res ) => res.data);
@@ -32,7 +19,7 @@ const Users = () => {
     const [loading, setLoading] = useState(true);
     const [searchName, setSearchName] = useState(''); 
     const { darkTheme } = useContext(AppContext);
-    const history = useNavigate(); 
+   /*  const history = useNavigate(); */ 
 
     
     const fetchData = async () =>{
@@ -71,7 +58,7 @@ const Users = () => {
     const handleDelete = (id) => {
         axios.delete( `https://638267ff9842ca8d3ca87c97.mockapi.io/crud-operations/${id}` )
              .then(() => {
-                history('/');
+              window.location.reload(false);
                });
     }
     
